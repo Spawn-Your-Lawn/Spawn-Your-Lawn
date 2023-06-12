@@ -5,7 +5,8 @@
       "@babel/plugin-transform-react-jsx",
       {
         "runtime": "automatic"
-      }
+      },
+      "@babel/plugin-syntax-jsx"
     ]
   ]
 }
