@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get('/', getPlantsFromFavorite);
 router.post('/', addPlantToFavorite);
-router.delete('/:plantId', removePlantFromFavorite);
+router.delete('/', removePlantFromFavorite);
 
 export { router as favoritesRoutes };

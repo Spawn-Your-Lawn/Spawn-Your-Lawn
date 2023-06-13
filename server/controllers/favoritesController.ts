@@ -35,12 +35,11 @@ export const addPlantToFavorite = async (request: Request, response: Response) =
 };
 
 export const removePlantFromFavorite = async (request: Request, response: Response) => {
-  const { plantId } = request.params;
 
   try {
     const deletePlant = await prisma.favorites.deleteMany({
       where: {
-        plantId: Number(plantId),
+        plantId: Number(request.body.plantId),
         userId: Number(request.body.userId)
       }
     });
