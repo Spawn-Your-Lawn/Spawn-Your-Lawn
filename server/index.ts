@@ -1,12 +1,10 @@
 import axios from 'axios';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import express from 'express';
+import express, { Request, Response } from 'express';
+import { auth, requiresAuth } from 'express-openid-connect';
 import morgan from 'morgan';
 import path from 'path';
-
-import { favoritesRoutes } from './routes/favoritesRoutes';
-import { userRoutes } from './routes/userRoutes';
 
 dotenv.config();
 
@@ -18,24 +16,41 @@ app.use(express.static(path.join(__dirname, '../dist')));
 
 app.use(morgan('combined'));
 
-app.use('/api/users', userRoutes);
-app.use('/api/favorites', favoritesRoutes);
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  baseURL: 'http://localhost:3000',
+  clientID: process.env.AUTH_ID,
+  issuerBaseURL: 'https://dev-lgwctxldh5a6hwd4.us.auth0.com',
+  secret: process.env.AUTH_SECRET,
+};
+
+app.use(auth(config));
+
+app.get('/', (request: Request, response: Response) => {
+  response.send(
+    request.oidc.isAuthenticated() ? 'Logged in' : 'Logged out'
+  );
+});
+
+app.get('/profile', requiresAuth(), (request: Request, response: Response) => {
+  response.send(JSON.stringify(request.oidc.user, null, 2));
+});
 
 const port = 3000;
 
-app.post('/api/map/stores', (req, res) => {
-  const cleanedBodyData = req.body.data.replace(/\n\s+/g, '');
-  axios.get(
+app.post('/api/map/stores', async (request: Request, response: Response) => {
+  const cleanedBodyData = request.body.data.replace(/\n\s+/g, '');
+  await axios.get(
     `https://overpass-api.de/api/interpreter${cleanedBodyData}`
   )
-    .then((response) => {
-      res.status(200).send(response.data);
+    .then((result) => {
+      response.status(200).send(result.data);
     })
     .catch(() => {
-      res.status(500).send('error retrieving data on stores');
+      response.status(500).send('error retrieving data on stores');
     });
 });
-
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
