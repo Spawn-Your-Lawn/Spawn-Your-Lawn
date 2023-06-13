@@ -22,7 +22,9 @@ export const addPlantToFavorite = async (request: Request, response: Response) =
   try {
     const favorite = await prisma.favorites.create({
       data: {
+        plantImage: request.body.plantImage,
         plantId: Number(request.body.plantId),
+        plantName: request.body.plantName,
         userId: Number(request.body.userId)
       }
     });
