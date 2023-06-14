@@ -9,7 +9,6 @@ export const FavoritePlants = () => {
   const getFavoritePlants = () => {
     axios.get('/api/favorites')
       .then((response) => {
-        console.log(response.data);
         setFavoritedPlants(response.data);
       })
       .catch((error) => {
@@ -22,7 +21,6 @@ export const FavoritePlants = () => {
   }, []);
 
   const deletePlant = (favoritedPlant) => {
-    console.log(favoritedPlant);
     axios.delete('/api/favorites', {
       data: {
         plantId: favoritedPlant.plantId,
