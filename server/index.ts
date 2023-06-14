@@ -21,7 +21,7 @@ const config = {
   auth0Logout: true,
   baseURL: 'http://localhost:3000',
   clientID: process.env.AUTH_ID,
-  issuerBaseURL: 'https://dev-lgwctxldh5a6hwd4.us.auth0.com',
+  issuerBaseURL: process.env.DOMAIN,
   secret: process.env.AUTH_SECRET,
 };
 
