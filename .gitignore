@@ -7,3 +7,4 @@ coverage
 .parcel-cache
 dist
 prisma/migrations
+package-lock.json
