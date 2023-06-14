@@ -27,7 +27,8 @@ export const Navbar: FC = () => {
           </label>
           <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-200 rounded-box w-52">
             <li><Link to='/'>Home</Link></li>
-            <li><Link to='/sellers'>Blooming Sellers</Link></li>
+            <li><Link to='/sellers'>Sellers</Link></li>
+            <li><Link to='/favorites'>Favorite Plants</Link></li>
           </ul>
         </div>
       </div>
