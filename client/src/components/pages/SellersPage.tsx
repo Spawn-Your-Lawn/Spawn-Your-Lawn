@@ -48,7 +48,7 @@ export const SellersPage: FC = () => {
 
   let storeFinder = function (radius: any, query: string) {
     axios
-      .post('/map/stores', {
+      .post('http://localhost:3000/map/stores', {
         data: query
       })
       .then((response) => {
@@ -67,7 +67,7 @@ export const SellersPage: FC = () => {
         }
         setStoreCoordinatesSet(reformattedStoreSet);
       })
-      .catch((err) => {
+      .catch(() => {
         console.log('Issue finding stores');
       });
   };
@@ -106,7 +106,7 @@ export const SellersPage: FC = () => {
           });
         }
       })
-      .catch((err) => {
+      .catch(() => {
         console.log('Error in retrieving coordinates');
       });
   };
