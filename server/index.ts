@@ -23,7 +23,7 @@ app.post('/map/stores', (req, res) => {
     .then((response) => {
       res.status(200).send(response.data);
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send('error retrieving data on stores');
     });
 });
