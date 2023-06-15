@@ -1,9 +1,11 @@
 import { ChangeEvent, FC, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const Navbar: FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const { logout } = useAuth0();
 
   const handleSearch = async() => {
     navigate(`/search?plant=${searchTerm}`);
@@ -27,6 +29,8 @@ export const Navbar: FC = () => {
           </label>
           <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-200 rounded-box w-52">
             <li><Link to='/'>Home</Link></li>
+            <li><a href='/login'>Login</a></li>
+            <li><a onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Log Out</a></li>
           </ul>
         </div>
       </div>
