@@ -1,9 +1,11 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { ChangeEvent, FC, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const Navbar: FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const { logout } = useAuth0();
 
   const handleSearch = async() => {
     navigate(`/search?plant=${searchTerm}`);
