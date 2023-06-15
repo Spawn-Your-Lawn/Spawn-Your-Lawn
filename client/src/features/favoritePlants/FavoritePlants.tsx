@@ -36,23 +36,33 @@ export const FavoritePlants = () => {
       });
   };
 
-  return (
-    <div>
-      <Navbar />
-      <h1>Favorite Plants</h1>
-      <br></br>
-      <div className='grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full'>
-        {favoritedPlants.map((favoritedPlant, index) => (
-          <div key={index} className="card shadow-lg">
-            <img className="w-full h-48 object-cover" src={favoritedPlant.plantImage} alt={favoritedPlant.plantName} />
-            <div className="card-body bg-primary flex flex-col items-center">
-              <div className="card-title text-center">Plant ID: {favoritedPlant.plantId}</div>
-              <div className="card-text">Plant Name: {favoritedPlant.plantName}</div>
-              <button className="btn btn-primary" onClick={() => deletePlant(favoritedPlant)}>Delete Me 😞</button>
+  if (favoritedPlants.length > 0) {
+    return (
+      <div>
+        <Navbar />
+        <h1>Favorite Plants</h1>
+        <br></br>
+        <div className='grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full'>
+          {favoritedPlants.map((favoritedPlant, index) => (
+            <div key={index} className="card shadow-lg">
+              <img className="w-full h-48 object-cover" src={favoritedPlant.plantImage} alt={favoritedPlant.plantName} />
+              <div className="card-body bg-primary flex flex-col items-center">
+                <div className="card-title text-center">Plant ID: {favoritedPlant.plantId}</div>
+                <div className="card-text">Plant Name: {favoritedPlant.plantName}</div>
+                <button className="btn btn-primary" onClick={() => deletePlant(favoritedPlant)}>Delete Me 😞</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div>
+        <Navbar />
+        <h1>Favorite Plants</h1>
+        <h2>Empty 😞</h2>
+      </div>
+    );
+  }
 };
