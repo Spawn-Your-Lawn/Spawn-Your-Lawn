@@ -3,11 +3,13 @@ import express from 'express';
 import morgan from 'morgan';
 import path from 'path';
 import axios from 'axios';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../dist')));
 
