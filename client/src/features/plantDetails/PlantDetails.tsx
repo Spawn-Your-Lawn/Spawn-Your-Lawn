@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ReactLogo from '../../assets/react.svg';
@@ -14,6 +17,17 @@ export const PlantDetails: FC = () => {
   const dispatch = useAppDispatch();
 
   const plantDetails = useAppSelector((state) => state.plantDetails);
+
+  const notify = () => toast.success('Added plant to favorites!', {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'dark',
+  });
 
   const addPlant = () => {
     axios.post('/api/favorites', {
@@ -70,7 +84,19 @@ export const PlantDetails: FC = () => {
         <h1 className="text-4xl font-bold mb-8">
           Plant Details
           <div>
-            <button className="btn btn-primary" onClick={addPlant}>Add To Favorites</button>
+            <button className="btn btn-primary" onClick={() => {addPlant(); notify();}}>Add To Favorites</button>
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+            />
           </div>
         </h1>
         {plantDetails && (
