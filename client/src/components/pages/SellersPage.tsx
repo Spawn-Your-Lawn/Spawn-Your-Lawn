@@ -25,6 +25,10 @@ export const SellersPage: FC = () => {
   const [storeCoordinatesSet, setStoreCoordinatesSet] = useState([]);
   const [showStore, setShowStore] = useState(false);
   const [locationTags, setLocationTags] = useState({});
+  const [mapView, setMapView] = useState({
+    center: [0, 0],
+    zoom: 2,
+  });
 
   useEffect(() => {
     const map = new Map({
@@ -34,10 +38,7 @@ export const SellersPage: FC = () => {
           source: new OSM(),
         }),
       ],
-      view: new View({
-        center: [0, 0],
-        zoom: 2,
-      }),
+      view: new View(mapView),
     });
 
     setMarkedMap(map);
@@ -45,18 +46,17 @@ export const SellersPage: FC = () => {
     return () => {
       map.setTarget(undefined);
     };
-  }, []);
+  }, [mapView]);
 
-  let storeFinder = function (radius: any, query: string) {
-    axios
-      .post('http://localhost:3000/map/stores', {
-        data: query
-      })
+  const storeFinder = function (query: string) {
+    axios.post('http://localhost:3000/map/stores', {
+      data: query
+    })
       .then((response) => {
-        let storeSet = response.data.elements;
-        let reformattedStoreSet = [];
+        const storeSet = response.data.elements;
+        const reformattedStoreSet = [];
         for (let i = 0; i < response.data.elements.length; i += 1) {
-          let singleStore: any = {};
+          const singleStore: any = {};
           singleStore.tags = storeSet[i].tags;
           singleStore.latitude = storeSet[i].lat;
           singleStore.longitude = storeSet[i].lon;
@@ -69,6 +69,12 @@ export const SellersPage: FC = () => {
         setStoreCoordinatesSet(reformattedStoreSet);
         if (reformattedStoreSet.length > 0) {
           setShowStore(true);
+          const firstStore = reformattedStoreSet[0];
+          const newMapView = {
+            center: transform([firstStore.longitude, firstStore.latitude], 'EPSG:4326', 'EPSG:3857'),
+            zoom: 10,
+          };
+          setMapView(newMapView);
         }
       })
       .catch(() => {
@@ -78,26 +84,27 @@ export const SellersPage: FC = () => {
 
   useEffect(() => {
     let overpassQuery: string;
+    const radiusInMeters = 10 * 1609.34;
     if (userCoordinates.latitude && userCoordinates.longitude) {
       overpassQuery = `?data=[out:json];
       (
-        node["shop"="garden_centre"](around:8047.2,
+        node["shop"="garden_centre"](around:${radiusInMeters},
           ${userCoordinates.latitude}, ${userCoordinates.longitude});
-        way["shop"="garden_centre"](around:8047.2,
+        way["shop"="garden_centre"](around:${radiusInMeters},
           ${userCoordinates.latitude}, ${userCoordinates.longitude});
-        relation["shop"="garden_centre"](around:8047.2,
+        relation["shop"="garden_centre"](around:${radiusInMeters},
           ${userCoordinates.latitude}, ${userCoordinates.longitude});
       );
       out center;`;
-      storeFinder(null, overpassQuery);
+      storeFinder(overpassQuery);
     }
   }, [userCoordinates]);
 
-  let handleSubmit = function (e) {
+  const handleSubmit = function (e) {
     e.preventDefault();
-    let City = e.target[0].value;
-    let State = e.target[1].value;
-    let query = `${City}, ${State}`;
+    const City = e.target[0].value;
+    const State = e.target[1].value;
+    const query = `${City}, ${State}`;
     axios
       .get(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
@@ -162,7 +169,7 @@ export const SellersPage: FC = () => {
     <div className='flex flex-col h-screen max-h-screen'>
       <Navbar />
       <div>
-        <form className="locationForm" onSubmit={handleSubmit}>
+        <form className="m-10" onSubmit={handleSubmit}>
           <label>
             City
             <input className="input input-bordered w-full focus:text-white focus:border-primary focus:outline-primary hover:border-secondary" />

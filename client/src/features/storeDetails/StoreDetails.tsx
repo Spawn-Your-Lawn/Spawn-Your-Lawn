@@ -2,10 +2,11 @@ import { FC } from 'react';
 
 export const StoreDetails: FC = ({ locationTags }) => {
 
-  console.log(locationTags);
-
   return (
-    <div>
+    <div className="m-10">
+      <div>
+        {locationTags.name && <h4 className="underline"><strong>Store Information</strong></h4>}
+      </div>
       <div>
         {locationTags.name && <p>{locationTags.name}</p>}
       </div>
