@@ -12,6 +12,7 @@ import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import axios from 'axios';
 import Select from 'ol/interaction/Select';
+import { StoreDetails } from '../../features/storeDetails/StoreDetails';
 
 export const SellersPage: FC = () => {
   const mapContainer = useRef(null);
@@ -22,8 +23,8 @@ export const SellersPage: FC = () => {
 
   const [markedMap, setMarkedMap] = useState(null);
   const [storeCoordinatesSet, setStoreCoordinatesSet] = useState([]);
-  const [selectedCoordinated, setSelectedCoordinated] = useState({});
-  const [showCoordinate, setShowCoordinate] = useState(false);
+  const [showStore, setShowStore] = useState(false);
+  const [locationTags, setLocationTags] = useState({});
 
   useEffect(() => {
     const map = new Map({
@@ -66,6 +67,9 @@ export const SellersPage: FC = () => {
           reformattedStoreSet.push(singleStore);
         }
         setStoreCoordinatesSet(reformattedStoreSet);
+        if (reformattedStoreSet.length > 0) {
+          setShowStore(true);
+        }
       })
       .catch(() => {
         console.log('Issue finding stores');
@@ -142,6 +146,7 @@ export const SellersPage: FC = () => {
         if (selectedFeature) {
           const tags = selectedFeature.get('tags');
           const coordinates = selectedFeature.get('coordinates');
+          setLocationTags(tags);
         }
       });
 
@@ -169,6 +174,7 @@ export const SellersPage: FC = () => {
           <input className="btn btn-primary py-2 px-4 rounded" type="submit" value="Search Location" />
         </form>
         <div className="m-10 w-50 h-96" ref={mapContainer}></div>
+        {showStore && <StoreDetails locationTags={locationTags}/>}
       </div>
     </div>
   );
