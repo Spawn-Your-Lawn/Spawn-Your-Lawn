@@ -15,6 +15,21 @@ export const PlantDetails: FC = () => {
 
   const plantDetails = useAppSelector((state) => state.plantDetails);
 
+  const addPlant = () => {
+    axios.post('/api/favorites', {
+      plantImage: plantDetails.default_image.original_url,
+      plantId: plantDetails.id,
+      plantName: plantDetails.common_name,
+      userId: 1
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log('Error posting plant to favorites:', error);
+      });
+  };
+
   const fetchPlantDetails = async() => {
     if (!plantId) {
       return;
@@ -52,7 +67,12 @@ export const PlantDetails: FC = () => {
       </div>
     ) : (
       <div className="p-8">
-        <h1 className="text-4xl font-bold mb-8">Plant Details</h1>
+        <h1 className="text-4xl font-bold mb-8">
+          Plant Details
+          <div>
+            <button className="btn btn-primary" onClick={addPlant}>Add To Favorites</button>
+          </div>
+        </h1>
         {plantDetails && (
           <div className='grid grid-cols-2 gap-8'>
             <div className="p-4 bg-neutral rounded-lg shadow-md">
