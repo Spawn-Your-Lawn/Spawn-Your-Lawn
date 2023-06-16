@@ -12,7 +12,7 @@ import { FC, FormEvent, useEffect, useRef, useState } from 'react';
 
 import { StoreDetails } from '../../features/storeDetails/StoreDetails';
 import { Navbar } from '../layout/Navbar';
-
+// Sellers
 interface StoreCoordinate {
   tags: Record<string, unknown>;
   latitude: number;
