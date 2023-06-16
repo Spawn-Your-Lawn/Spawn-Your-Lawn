@@ -65,16 +65,19 @@ export const FavoritePlants = () => {
             />
             <div className='card-body bg-primary flex flex-col items-center'>
               <div className='card-title text-center'>
-                Plant ID: {favoritedPlant.plantId}
+                {favoritedPlant.plantName}
               </div>
               <div className='card-text'>
-                Plant Name: {favoritedPlant.plantName}
+                Plant ID: {favoritedPlant.plantId}
               </div>
+              <button className="btn btn-neutral">
+                View Details
+              </button>
               <button
-                className='btn btn-primary'
+                className='btn btn-error'
                 onClick={() => deletePlant(favoritedPlant)}
               >
-                Delete Me 😞
+                Remove from Favorites
               </button>
             </div>
           </div>
