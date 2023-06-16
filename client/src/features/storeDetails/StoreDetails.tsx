@@ -1,14 +1,23 @@
 import { FC } from 'react';
 
-export const StoreDetails: FC = ({ locationTags }) => {
+interface LocationTags {
+  name?: string;
+  'addr:housenumber'?: string;
+  'addr:street'?: string;
+  'addr:city'?: string;
+  'addr:postcode'?: string;
+  phone?: string;
+}
 
+interface StoreDetailsProps {
+  locationTags: LocationTags;
+}
+
+export const StoreDetails: FC<StoreDetailsProps> = ({ locationTags }) => {
   return (
     <div className="m-10">
       <div>
-        {locationTags.name && <h4 className="underline"><strong>Store Information</strong></h4>}
-      </div>
-      <div>
-        {locationTags.name && <p>{locationTags.name}</p>}
+        {locationTags.name && <h4 className="underline"><strong>{locationTags.name}</strong></h4>}
       </div>
       <div>
         {locationTags['addr:housenumber'] && <p>{locationTags['addr:housenumber']}</p>}
@@ -23,7 +32,7 @@ export const StoreDetails: FC = ({ locationTags }) => {
         {locationTags['addr:postcode'] && <p>{locationTags['addr:postcode']}</p>}
       </div>
       <div>
-        {locationTags['phone'] && <p>{locationTags['phone']}</p>}
+        {locationTags.phone && <p>{locationTags.phone}</p>}
       </div>
     </div>
   );
