@@ -1,4 +1,3 @@
-import axios from 'axios';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -35,7 +34,6 @@ app.post('/api/map/stores', (req, res) => {
       res.status(500).send('error retrieving data on stores');
     });
 });
-
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
