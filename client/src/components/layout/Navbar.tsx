@@ -29,7 +29,6 @@ export const Navbar: FC = () => {
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/sellers'>Sellers</Link></li>
             <li><Link to='/favorites'>Favorite Plants</Link></li>
-            <li><Link to='/sellers'>Sellers</Link></li>
           </ul>
         </div>
       </div>

@@ -17,6 +17,7 @@ export const App: FC = () => {
           <Route path='/' element={<HomePage />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/plants/:plantId' element={<PlantDetailsPage />} />
+          <Route path='/favorites' element={<FavoritePlants />}/>
           <Route path='/sellers' element={<SellersPage />}/>
           <Route path='/favorites' element={<FavoritePlants />}/>
           <Route path='/sellers' element={<SellersPage />}/>
