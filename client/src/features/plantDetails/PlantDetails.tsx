@@ -36,11 +36,8 @@ export const PlantDetails: FC = () => {
       plantName: plantDetails.common_name,
       userId: 1
     })
-      .then((response) => {
-        console.log(response);
-      })
       .catch((error) => {
-        console.log('Error posting plant to favorites:', error);
+        console.error('Error posting plant to favorites:', error);
       });
   };
 
