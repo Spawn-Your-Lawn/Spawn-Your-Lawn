@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { Navbar } from '../layout/Navbar';
 import { Cesium } from '../../features/garden/Cesium';
+import { Navbar } from '../layout/Navbar';
 
 export const GardenPage: FC = () => {
   return (
