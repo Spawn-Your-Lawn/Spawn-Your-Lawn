@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 export const Navbar: FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
-  const { logout } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
   const handleSearch = async() => {
     navigate(`/search?plant=${searchTerm}`);
@@ -31,6 +31,11 @@ export const Navbar: FC = () => {
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/favorites'>Favorite Plants</Link></li>
             <li><Link to='/sellers'>Sellers</Link></li>
+            {isAuthenticated ? (
+              <li><a onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Log Out</a></li>
+              ) : (
+              <li><a onClick={() => loginWithRedirect()}>Log In</a></li>
+            )}
           </ul>
         </div>
       </div>
