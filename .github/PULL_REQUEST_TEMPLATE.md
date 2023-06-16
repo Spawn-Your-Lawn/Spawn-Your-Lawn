@@ -21,7 +21,7 @@ Please label your pull request as appropriate for the type of change it makes an
 
 ## Checklist
 
-- [ ] I have read the [contributing guidelines](CONTRIBUTING.md) for this project.
+- [ ] I have read the [contributing guidelines](https://github.com/Spawn-Your-Lawn/spawn-your-lawn/blob/005dd64f8a7d6e5dd62daddec05c174d61a439ba/.github/CONTRIBUTING.md) for this project.
 - [ ] My code follows the code style of this project.
 - [ ] If my change requires a change to the documentation, I have updated the documentation accordingly.
 - [ ] If applicable, I have added tests to cover my changes.
