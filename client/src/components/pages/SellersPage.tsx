@@ -1,28 +1,33 @@
-import { FC } from 'react';
-import { Navbar } from '../layout/Navbar';
-import { useEffect, useRef, useState } from 'react';
-import 'ol/ol.css';
-import { Feature } from 'ol';
-import { Map, View } from 'ol';
-import { Point } from 'ol/geom';
-import { Vector as VectorLayer } from 'ol/layer';
-import { Vector as VectorSource } from 'ol/source';
-import { transform } from 'ol/proj';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
 import axios from 'axios';
+import { Feature, Map, View } from 'ol';
+import { Point } from 'ol/geom';
 import Select from 'ol/interaction/Select';
+import { Vector as VectorLayer } from 'ol/layer';
+import TileLayer from 'ol/layer/Tile';
+import 'ol/ol.css';
+import { transform } from 'ol/proj';
+import { Vector as VectorSource } from 'ol/source';
+import OSM from 'ol/source/OSM';
+import { FC, FormEvent, useEffect, useRef, useState } from 'react';
+
 import { StoreDetails } from '../../features/storeDetails/StoreDetails';
+import { Navbar } from '../layout/Navbar';
+
+interface StoreCoordinate {
+  tags: Record<string, unknown>;
+  latitude: number;
+  longitude: number;
+}
 
 export const SellersPage: FC = () => {
-  const mapContainer = useRef(null);
+  const mapContainer = useRef<HTMLDivElement>(null);
   const [userCoordinates, setUserCoordinates] = useState({
     latitude: null,
     longitude: null
   });
 
-  const [markedMap, setMarkedMap] = useState(null);
-  const [storeCoordinatesSet, setStoreCoordinatesSet] = useState([]);
+  const [markedMap, setMarkedMap] = useState<Map | null>(null);
+  const [storeCoordinatesSet, setStoreCoordinatesSet] = useState<Array<StoreCoordinate>>([]);
   const [showStore, setShowStore] = useState(false);
   const [locationTags, setLocationTags] = useState({});
   const [mapView, setMapView] = useState({
@@ -32,7 +37,7 @@ export const SellersPage: FC = () => {
 
   useEffect(() => {
     const map = new Map({
-      target: mapContainer.current,
+      target: mapContainer.current as HTMLElement,
       layers: [
         new TileLayer({
           source: new OSM(),
@@ -48,25 +53,30 @@ export const SellersPage: FC = () => {
     };
   }, [mapView]);
 
-  const storeFinder = function (query: string) {
-    axios.post('http://localhost:3000/map/stores', {
+  const storeFinder = function(query: string) {
+    axios.post('/api/map/stores', {
       data: query
     })
       .then((response) => {
         const storeSet = response.data.elements;
         const reformattedStoreSet = [];
+
         for (let i = 0; i < response.data.elements.length; i += 1) {
-          const singleStore: any = {};
-          singleStore.tags = storeSet[i].tags;
-          singleStore.latitude = storeSet[i].lat;
-          singleStore.longitude = storeSet[i].lon;
+          const singleStore = {
+            tags: storeSet[i].tags,
+            latitude: storeSet[i].lat,
+            longitude: storeSet[i].lon
+          };
+
           if (storeSet[i].center) {
             singleStore.latitude = storeSet[i].center.lat;
             singleStore.longitude = storeSet[i].center.lon;
           }
           reformattedStoreSet.push(singleStore);
         }
+
         setStoreCoordinatesSet(reformattedStoreSet);
+
         if (reformattedStoreSet.length > 0) {
           setShowStore(true);
           const firstStore = reformattedStoreSet[0];
@@ -100,10 +110,10 @@ export const SellersPage: FC = () => {
     }
   }, [userCoordinates]);
 
-  const handleSubmit = function (e) {
-    e.preventDefault();
-    const City = e.target[0].value;
-    const State = e.target[1].value;
+  const handleSubmit = function(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const City = (event.currentTarget[0] as HTMLInputElement).value;
+    const State = (event.currentTarget[1] as HTMLInputElement).value;
     const query = `${City}, ${State}`;
     axios
       .get(
@@ -152,7 +162,6 @@ export const SellersPage: FC = () => {
         const selectedFeature = event.selected[0];
         if (selectedFeature) {
           const tags = selectedFeature.get('tags');
-          const coordinates = selectedFeature.get('coordinates');
           setLocationTags(tags);
         }
       });
@@ -180,8 +189,9 @@ export const SellersPage: FC = () => {
           </label>
           <input className="btn btn-primary py-2 px-4 rounded" type="submit" value="Search Location" />
         </form>
+
         <div className="m-10 w-50 h-96" ref={mapContainer}></div>
-        {showStore && <StoreDetails locationTags={locationTags}/>}
+        {showStore && <StoreDetails locationTags={locationTags} />}
       </div>
     </div>
   );
