@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Provider } from 'react-redux';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
+import { GardenPage } from '../components/pages/GardenPage';
 import { HomePage } from '../components/pages/HomePage';
 import { PlantDetailsPage } from '../components/pages/PlantDetailsPage';
 import { SearchPage } from '../components/pages/SearchPage';
@@ -19,6 +20,7 @@ export const App: FC = () => {
           <Route path='/plants/:plantId' element={<PlantDetailsPage />} />
           <Route path='/favorites' element={<FavoritePlants />}/>
           <Route path='/sellers' element={<SellersPage />}/>
+          <Route path='/garden' element={<GardenPage />}/>
         </Routes>
       </Router>
     </Provider>

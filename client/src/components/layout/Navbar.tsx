@@ -31,6 +31,7 @@ export const Navbar: FC = () => {
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/favorites'>Favorite Plants</Link></li>
             <li><Link to='/sellers'>Sellers</Link></li>
+            <li><Link to='/garden'>Garden</Link></li>
             {isAuthenticated ? (
               <li><a onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Log Out</a></li>
               ) : (
