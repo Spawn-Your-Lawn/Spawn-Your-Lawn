@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import prisma from '../../prisma/client';
 
-export const getPlantsFromFavorite = async (request: Request, response: Response) => {
+export const getPlantsFromFavorite = async(request: Request, response: Response) => {
   const getFavoritePlants = await prisma.favorites.findMany();
 
   try {
@@ -13,7 +13,7 @@ export const getPlantsFromFavorite = async (request: Request, response: Response
   }
 };
 
-export const addPlantToFavorite = async (request: Request, response: Response) => {
+export const addPlantToFavorite = async(request: Request, response: Response) => {
   if (!request.body || !request.body.plantId || !request.body.userId) {
     response.status(500).send('Not all information included');
     return;
@@ -36,7 +36,7 @@ export const addPlantToFavorite = async (request: Request, response: Response) =
   }
 };
 
-export const removePlantFromFavorite = async (request: Request, response: Response) => {
+export const removePlantFromFavorite = async(request: Request, response: Response) => {
   try {
     const deletePlant = await prisma.favorites.deleteMany({
       where: {

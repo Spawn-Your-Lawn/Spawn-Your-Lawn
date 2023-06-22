@@ -6,6 +6,8 @@ import { auth, requiresAuth } from 'express-openid-connect';
 import morgan from 'morgan';
 import path from 'path';
 
+import { favoritesRoutes } from './routes/favoritesRoutes';
+
 dotenv.config();
 
 const app = express();
@@ -39,7 +41,7 @@ app.get('/profile', requiresAuth(), (request: Request, response: Response) => {
 
 const port = 3000;
 
-app.post('/api/map/stores', async (request: Request, response: Response) => {
+app.post('/api/map/stores', async(request: Request, response: Response) => {
   const cleanedBodyData = request.body.data.replace(/\n\s+/g, '');
   await axios.get(
     `https://overpass-api.de/api/interpreter${cleanedBodyData}`
@@ -51,6 +53,8 @@ app.post('/api/map/stores', async (request: Request, response: Response) => {
       response.status(500).send('error retrieving data on stores');
     });
 });
+
+app.use('/api/favorites', favoritesRoutes);
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);

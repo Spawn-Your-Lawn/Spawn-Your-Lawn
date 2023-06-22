@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import prisma from '../../prisma/client';
 
-export const addUser = async (request: Request, response: Response) => {
+export const addUser = async(request: Request, response: Response) => {
   if (!request.body || !request.body.username || !request.body.password) {
     response.status(500).send('Not all information included');
     return;
