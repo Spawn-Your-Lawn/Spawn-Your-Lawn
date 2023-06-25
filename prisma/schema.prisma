@@ -33,3 +33,10 @@ model Garden {
   user User @relation(fields: [userId], references: [id])
   userId Int
 }
+
+model Plant {
+  id Int @id @default(autoincrement())
+  plantId Int
+  plantName String
+  origin String[]
+}

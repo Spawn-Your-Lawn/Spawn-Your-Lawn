@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import path from 'path';
 
 import { favoritesRoutes } from './routes/favoritesRoutes';
+import { plantsRoutes } from './routes/plantsRoutes';
 
 dotenv.config();
 
@@ -55,6 +56,8 @@ app.post('/api/map/stores', async(request: Request, response: Response) => {
 });
 
 app.use('/api/favorites', favoritesRoutes);
+
+app.use('/api/plants', plantsRoutes);
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
