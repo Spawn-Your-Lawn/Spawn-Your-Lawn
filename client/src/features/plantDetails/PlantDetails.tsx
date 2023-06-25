@@ -29,16 +29,17 @@ export const PlantDetails: FC = () => {
     theme: 'dark',
   });
 
-  const addPlant = () => {
-    axios.post('/api/favorites', {
-      plantImage: plantDetails.default_image.original_url,
-      plantId: plantDetails.id,
-      plantName: plantDetails.common_name,
-      userId: 1
-    })
-      .catch((error) => {
-        console.error('Error posting plant to favorites:', error);
+  const addPlant = async() => {
+    try {
+      await axios.post('/api/favorites', {
+        plantImage: plantDetails.default_image.original_url,
+        plantId: plantDetails.id,
+        plantName: plantDetails.common_name,
+        userId: 1
       });
+    } catch (error) {
+      console.error('Error posting plant to favorites:', error);
+    }
   };
 
   const fetchPlantDetails = async() => {
