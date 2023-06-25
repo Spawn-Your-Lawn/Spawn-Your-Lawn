@@ -28,8 +28,8 @@ Features include:
 
 You will need the following dependencies to run this project:
 
-* `node` / `npm`, to manage project dependencies ([download](<https://nodejs.org/en/download>))
-* `git`, for cloning the project ([download](<https://git-scm.com/downloads>))
+* `node` / `npm`, to manage project dependencies ([download](https://nodejs.org/en/download))
+* `git`, for cloning the project ([download](https://git-scm.com/downloads))
 
 ### Setup and Running
 
